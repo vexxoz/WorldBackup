@@ -33,23 +33,23 @@ public class backupCycle extends Thread {
 			File destDir = new File(destination);
 			
 			//if world has changed
-			System.out.println("Attempting a backup");
+			System.out.println(timeStamp + "> Attempting an auto backup");
 			if(lastSaveSize == 0 || FileUtils.sizeOfDirectory(srcDir) != lastSaveSize) {
 				//backup
 				try {
-					System.out.println("Backing up world");
+					System.out.println(timeStamp + "> Backing up World");
 					// make new directory
 					destDir.mkdir();
 					// save all files to that new directory
 				    FileUtils.copyDirectory(srcDir, destDir);
 				    // update the save size
 				    lastSaveSize = FileUtils.sizeOfDirectory(destDir);
-				    System.out.println("Successfully Backed up Your World at "+timeStamp);
+				    System.out.println(timeStamp + "> Successfully auto backed up your World");
 				} catch (IOException e) {
 				    e.printStackTrace();
 				}
 			}else {
-				System.out.println("World has not changed. No backup happened");
+				System.out.println(timeStamp + "> World has not changed. No backup occured!");
 			}
 			
 			// Sleep

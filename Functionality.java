@@ -13,6 +13,9 @@ public class Functionality {
 	public static int saveTime = 30;//in min
 	private Thread thread = null;
     private backupCycle cycle = null;
+	// getting the timeStamp
+	private Calendar cal = Calendar.getInstance();
+    private String timeStamp = sdf.format(cal.getTime());
 	
 	public Functionality() {
 		// default constructor
@@ -24,10 +27,10 @@ public class Functionality {
 	
 	public void startServer() {
 		// starts the server
-		System.out.println("Starting Server");
+		System.out.println(timeStamp + "> Starting Server");
 		try {
 			Runtime.getRuntime().exec("cmd /c start \"\" start.bat");
-			System.out.println("Server Started");
+			System.out.println(timeStamp + "> Server started");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -39,33 +42,29 @@ public class Functionality {
 		// source
 		String source = "D:\\Minecraft Server\\World";
 		File srcDir = new File(source);
-
-		// getting the timeStamp
-		Calendar cal = Calendar.getInstance();
-        String timeStamp = sdf.format(cal.getTime());
 		
         // destination
 		String destination = "D:\\Minecraft Server\\Backups\\World on "+timeStamp;
 		File destDir = new File(destination);
 		
 		//if world has changed
-		System.out.println("Attempting a backup");
+		System.out.println(timeStamp + "> Attempting a one time backup");
 		//backup
 		try {
-			System.out.println("Backing up world");
+			System.out.println(timeStamp + "> Backing up World");
 			// make new directory
 			destDir.mkdir();
 			// save all files to that new directory
 		    FileUtils.copyDirectory(srcDir, destDir);
 		    // update the save size
-		    System.out.println("Successfully Backed up Your World at "+timeStamp);
+		    System.out.println(timeStamp + "> Successfully backed up Your World");
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
 	}
 	
 	public void startBackupCycle() {
-		System.out.println("Starting Auto Backup every " + saveTime + " mins");
+		System.out.println(timeStamp + "> Starting auto backup every " + saveTime + " mins");
 		// backing up world loop
 		cycle = new backupCycle();
 		thread = new Thread(cycle);
@@ -75,10 +74,11 @@ public class Functionality {
 	
 	public void stopBackupCycle() {
 		if(thread != null) {
-			System.out.println("Attempting to stop Auto Backup");
+			System.out.println(timeStamp + "> Attempting to stop auto backup");
 			cycle.terminate();
 			thread.interrupt();
-			System.out.println("Auto Backup has been stopped");
+			thread = null;
+			System.out.println(timeStamp + "> Auto backup has been stopped");
 		}
 	}
 	
