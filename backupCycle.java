@@ -6,45 +6,43 @@ import java.util.Calendar;
 
 import org.apache.commons.io.FileUtils;
 
-public class main {
+public class backupCycle extends Thread {
 
 	private static final DateFormat sdf = new SimpleDateFormat("MM.dd.YY HH.mm.ss");
 	private static boolean isTrue = true;
-	// default of 30 mins
-	private static int saveTime = 30;//in min
-	private static long lastSaveSize = 0;
+	private static int saveTime = Functionality.saveTime;//in min
+	private static long lastSaveSize = 0;	
 	
-	public static void main(String[] args) {
-		if( args.length > 1 && args[0] != null) {
-			saveTime = Integer.parseInt(args[0]);
-		}
-		
-		System.out.println("Starting Server");
-		try {
-			Runtime.getRuntime().exec("cmd /c start \"\" start.bat");
-			System.out.println("Server Started");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		System.out.println("---------------");		
+	public void terminate() {
+		isTrue = false;
+	}
+	
+	public void run() {
 		while(isTrue) {
-			//Backup The World
+			// Backup The World
+			// source
 			String source = "D:\\Minecraft Server\\World";
 			File srcDir = new File(source);
 	
+			// getting the timeStamp
 			Calendar cal = Calendar.getInstance();
 	        String timeStamp = sdf.format(cal.getTime());
 			
+	        // destination
 			String destination = "D:\\Minecraft Server\\Backups\\World on "+timeStamp;
 			File destDir = new File(destination);
 			
+			//if world has changed
 			System.out.println("Attempting a backup");
 			if(lastSaveSize == 0 || FileUtils.sizeOfDirectory(srcDir) != lastSaveSize) {
 				//backup
 				try {
 					System.out.println("Backing up world");
+					// make new directory
 					destDir.mkdir();
+					// save all files to that new directory
 				    FileUtils.copyDirectory(srcDir, destDir);
+				    // update the save size
 				    lastSaveSize = FileUtils.sizeOfDirectory(destDir);
 				    System.out.println("Successfully Backed up Your World at "+timeStamp);
 				} catch (IOException e) {
@@ -54,14 +52,13 @@ public class main {
 				System.out.println("World has not changed. No backup happened");
 			}
 			
-			// SLeep
+			// Sleep
 			try {
 				Thread.sleep(saveTime*60000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-
 	}
-
+	
 }
