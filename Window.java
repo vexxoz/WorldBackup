@@ -68,12 +68,7 @@ public class Window {
 					}
 					core.startBackupCycle();
 				}if(e.getSource().equals(endBackupCycle)) {
-					try {
-						core.stopBackupCycle();
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					core.stopBackupCycle();
 				}
 			}			
 		}	
@@ -81,6 +76,7 @@ public class Window {
 		server.addActionListener(new menuListener());
 		backup.addActionListener(new menuListener());
 		backupCycle.addActionListener(new menuListener());
+		endBackupCycle.addActionListener(new menuListener());
 		
 		
 		frame.add(panel);

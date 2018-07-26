@@ -73,11 +73,11 @@ public class Functionality {
 
 	}
 	
-	public void stopBackupCycle() throws InterruptedException {
+	public void stopBackupCycle() {
 		if(thread != null) {
-			System.out.println("Attempting to stop Auto Backup (Note: this may take up to however long the backup time is)");
+			System.out.println("Attempting to stop Auto Backup");
 			cycle.terminate();
-			thread.join();
+			thread.interrupt();
 			System.out.println("Auto Backup has been stopped");
 		}
 	}
