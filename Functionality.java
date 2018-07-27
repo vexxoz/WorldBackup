@@ -16,7 +16,7 @@ public class Functionality {
 	// getting the timeStamp
 	private Calendar cal = Calendar.getInstance();
     private String timeStamp = sdf.format(cal.getTime());
-	
+    
 	public Functionality() {
 		// default constructor
 	}
@@ -26,6 +26,7 @@ public class Functionality {
 	}
 	
 	public void startServer() {
+		timeStamp = sdf.format(cal.getTime());
 		// starts the server
 		System.out.println(timeStamp + "> Starting Server");
 		try {
@@ -38,10 +39,11 @@ public class Functionality {
 	}
 	
 	public void backup() {
+		timeStamp = sdf.format(cal.getTime());
 		// Backup The World
 		// source
 		String source = "D:\\Minecraft Server\\World";
-		File srcDir = new File(source);
+		File srcDir = new File(source);	
 		
         // destination
 		String destination = "D:\\Minecraft Server\\Backups\\World on "+timeStamp;
