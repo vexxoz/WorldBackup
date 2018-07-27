@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -26,7 +25,6 @@ public class Window {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
-//		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		
 		JLabel title = new JLabel("World Management");
 		JButton server = new JButton("Start Server");
