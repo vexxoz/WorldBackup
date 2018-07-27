@@ -18,6 +18,7 @@ public class backupCycle extends Thread {
 	}
 	
 	public void run() {
+		String output = "";
 		while(isTrue) {
 			// Backup The World
 			// source
@@ -33,24 +34,27 @@ public class backupCycle extends Thread {
 			File destDir = new File(destination);
 			
 			//if world has changed
-			System.out.println(timeStamp + "> Attempting an auto backup");
+			output += timeStamp + "> Attempting an auto backup\n";
 			if(lastSaveSize == 0 || FileUtils.sizeOfDirectory(srcDir) != lastSaveSize) {
 				//backup
 				try {
-					System.out.println(timeStamp + "> Backing up World");
+					output += timeStamp + "> Backing up World\n";
 					// make new directory
 					destDir.mkdir();
 					// save all files to that new directory
 				    FileUtils.copyDirectory(srcDir, destDir);
 				    // update the save size
 				    lastSaveSize = FileUtils.sizeOfDirectory(destDir);
-				    System.out.println(timeStamp + "> Successfully auto backed up your World");
+				    output += timeStamp + "> Successfully auto backed up your World\n";
 				} catch (IOException e) {
 				    e.printStackTrace();
 				}
 			}else {
-				System.out.println(timeStamp + "> World has not changed. No backup occured!");
+				output += timeStamp + "> World has not changed. No backup occured!\n";
 			}
+			
+			Window.consoleText += output;
+			Window.console.setText(Window.consoleText);
 			
 			// Sleep
 			try {

@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,10 +14,12 @@ import javax.swing.JTextArea;
 public class Window {
 
 	static Functionality core = new Functionality();
+	public static String consoleText = "";
+	public static JTextArea console;
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		frame.setSize(300,300);
+		frame.setSize(350,600);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -26,20 +29,29 @@ public class Window {
 		JLabel title = new JLabel("World Management");
 		JButton server = new JButton("Start Server");
 		JButton backup = new JButton("Backup Once");
-		JTextArea saveTime = new JTextArea();
+		
+		String[] options = {"1","5","10","15","30","45","60","90","120","180"};
+		JComboBox saveTime = new JComboBox(options);
+		saveTime.setSelectedIndex(4);
+		
 		JButton backupCycle = new JButton("Start Backup Cycle");
 		JButton endBackupCycle = new JButton("Stop Backup Cycle");
-
+		
+		console = new JTextArea();
+		console.setEditable(false);
+		console.setText(consoleText);
+		
 		title.setFont(new Font("TimesRoman", Font.PLAIN, 35));
-		server.setFont(new Font("TimesRoman", Font.PLAIN, 15));
-		backup.setFont(new Font("TimesRoman", Font.PLAIN, 15));
-		backupCycle.setFont(new Font("TimesRoman", Font.PLAIN, 15));
-		endBackupCycle.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+		server.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		backup.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		saveTime.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		backupCycle.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		endBackupCycle.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 		server.setAlignmentX(Component.CENTER_ALIGNMENT);
 		backup.setAlignmentX(Component.CENTER_ALIGNMENT);
-		saveTime.setAlignmentX(Component.CENTER_ALIGNMENT);
+//		saveTime.setAlignmentX(Component.CENTER_ALIGNMENT);
 		backupCycle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		endBackupCycle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
@@ -50,26 +62,27 @@ public class Window {
 		panel.add(backupCycle);
 		panel.add(endBackupCycle);
 		
+		panel.add(console);
+		
 		class menuListener implements ActionListener{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource().equals(server)) {
-					core.startServer();
+					consoleText += core.startServer();
 				}
 				if(e.getSource().equals(backup)) {
-					core.backup();
+					consoleText += core.backup();
 				}
 				if(e.getSource().equals(backupCycle)) {
-					String text = saveTime.getText();
-					if(text.length() > 0) {
-						int saveTime = Integer.parseInt(text);
-						core.updateSaveTime(saveTime);
-					}
-					core.startBackupCycle();
+					String time = (String) saveTime.getSelectedItem();
+					int saveTime = Integer.parseInt(time);
+					core.updateSaveTime(saveTime);
+					consoleText += core.startBackupCycle();
 				}if(e.getSource().equals(endBackupCycle)) {
-					core.stopBackupCycle();
+					consoleText += core.stopBackupCycle();
 				}
+				console.setText(consoleText);
 			}			
 		}	
 		

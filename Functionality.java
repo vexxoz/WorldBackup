@@ -23,21 +23,24 @@ public class Functionality {
 		saveTime = saveTimeIn;
 	}
 	
-	public void startServer() {
+	public String startServer() {
+		String output = "";
 		Calendar cal = Calendar.getInstance();
 	    String timeStamp = sdf.format(cal.getTime());
 		// starts the server
-		System.out.println(timeStamp + "> Starting Server");
+	    output += timeStamp + "> Starting Server\n";
 		try {
 			Runtime.getRuntime().exec("cmd /c start \"\" start.bat");
-			System.out.println(timeStamp + "> Server started");
+			output += timeStamp + "> Server started\n";
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		System.out.println("---------------");		
+		output += "---------------\n";
+		return output;
 	}
 	
-	public void backup() {
+	public String backup() {
+		String output = "";
 		Calendar cal = Calendar.getInstance();
 	    String timeStamp = sdf.format(cal.getTime());
 		// Backup The World
@@ -50,42 +53,46 @@ public class Functionality {
 		File destDir = new File(destination);
 		
 		//if world has changed
-		System.out.println(timeStamp + "> Attempting a one time backup");
+		output += timeStamp + "> Attempting a one time backup\n";
 		//backup
 		try {
-			System.out.println(timeStamp + "> Backing up World");
+			output += timeStamp + "> Backing up World\n";
 			// make new directory
 			destDir.mkdir();
 			// save all files to that new directory
 		    FileUtils.copyDirectory(srcDir, destDir);
 		    // update the save size
-		    System.out.println(timeStamp + "> Successfully backed up Your World");
+		    output += timeStamp + "> Successfully backed up Your World\n";
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
+		return output;
 	}
 	
-	public void startBackupCycle() {
+	public String startBackupCycle() {
+		String output = "";
 		Calendar cal = Calendar.getInstance();
 	    String timeStamp = sdf.format(cal.getTime());
-		System.out.println(timeStamp + "> Starting auto backup every " + saveTime + " mins");
+	    output += timeStamp + "> Starting auto backup every " + saveTime + " mins\n";
 		// backing up world loop
 		cycle = new backupCycle();
 		thread = new Thread(cycle);
 		thread.start();
-
+		return output;
 	}
 	
-	public void stopBackupCycle() {
+	public String stopBackupCycle() {
+		String output = "";
 		Calendar cal = Calendar.getInstance();
 	    String timeStamp = sdf.format(cal.getTime());
 		if(thread != null) {
-			System.out.println(timeStamp + "> Attempting to stop auto backup");
+			output += timeStamp + "> Attempting to stop auto backup\n";
 			cycle.terminate();
 			thread.interrupt();
 			thread = null;
-			System.out.println(timeStamp + "> Auto backup has been stopped");
+			output += timeStamp + "> Auto backup has been stopped\n";
 		}
+		return output;
 	}
 	
 	public void updateSaveTime(int saveTimeIn) {
