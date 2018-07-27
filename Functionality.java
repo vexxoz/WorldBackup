@@ -14,8 +14,6 @@ public class Functionality {
 	private Thread thread = null;
     private backupCycle cycle = null;
 	// getting the timeStamp
-	private Calendar cal = Calendar.getInstance();
-    private String timeStamp = sdf.format(cal.getTime());
     
 	public Functionality() {
 		// default constructor
@@ -26,7 +24,8 @@ public class Functionality {
 	}
 	
 	public void startServer() {
-		timeStamp = sdf.format(cal.getTime());
+		Calendar cal = Calendar.getInstance();
+	    String timeStamp = sdf.format(cal.getTime());
 		// starts the server
 		System.out.println(timeStamp + "> Starting Server");
 		try {
@@ -39,7 +38,8 @@ public class Functionality {
 	}
 	
 	public void backup() {
-		timeStamp = sdf.format(cal.getTime());
+		Calendar cal = Calendar.getInstance();
+	    String timeStamp = sdf.format(cal.getTime());
 		// Backup The World
 		// source
 		String source = "D:\\Minecraft Server\\World";
@@ -66,6 +66,8 @@ public class Functionality {
 	}
 	
 	public void startBackupCycle() {
+		Calendar cal = Calendar.getInstance();
+	    String timeStamp = sdf.format(cal.getTime());
 		System.out.println(timeStamp + "> Starting auto backup every " + saveTime + " mins");
 		// backing up world loop
 		cycle = new backupCycle();
@@ -75,6 +77,8 @@ public class Functionality {
 	}
 	
 	public void stopBackupCycle() {
+		Calendar cal = Calendar.getInstance();
+	    String timeStamp = sdf.format(cal.getTime());
 		if(thread != null) {
 			System.out.println(timeStamp + "> Attempting to stop auto backup");
 			cycle.terminate();
