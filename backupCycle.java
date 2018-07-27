@@ -54,7 +54,7 @@ public class backupCycle extends Thread {
 			}
 			
 			Window.consoleText += output;
-			Window.console.setText(Window.consoleText);
+			Window.consoleBox.setText(Window.consoleText);
 			
 			// Sleep
 			try {

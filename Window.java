@@ -1,4 +1,5 @@
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,13 +10,14 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class Window {
 
 	static Functionality core = new Functionality();
 	public static String consoleText = "";
-	public static JTextArea console;
+	public static JTextArea consoleBox;
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -24,22 +26,33 @@ public class Window {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+//		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		
 		JLabel title = new JLabel("World Management");
 		JButton server = new JButton("Start Server");
+		server.setPreferredSize(new Dimension(300,40));
 		JButton backup = new JButton("Backup Once");
+		backup.setPreferredSize(new Dimension(300,40));
 		
 		String[] options = {"1","5","10","15","30","45","60","90","120","180"};
 		JComboBox saveTime = new JComboBox(options);
 		saveTime.setSelectedIndex(4);
+		saveTime.setPreferredSize(new Dimension(300,30));
 		
 		JButton backupCycle = new JButton("Start Backup Cycle");
+		backupCycle.setPreferredSize(new Dimension(300,40));
 		JButton endBackupCycle = new JButton("Stop Backup Cycle");
+		endBackupCycle.setPreferredSize(new Dimension(300,40));
 		
-		console = new JTextArea();
-		console.setEditable(false);
-		console.setText(consoleText);
+		consoleBox = new JTextArea();
+		consoleBox.setEditable(false);
+		consoleBox.setText(consoleText);
+		consoleBox.setLineWrap(true);
+		consoleBox.setWrapStyleWord(true);
+//		consoleBox.setPreferredSize(new Dimension(300,275));
+		
+		JScrollPane console = new JScrollPane(consoleBox, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		console.setPreferredSize(new Dimension(300,275));
 		
 		title.setFont(new Font("TimesRoman", Font.PLAIN, 35));
 		server.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -47,6 +60,7 @@ public class Window {
 		saveTime.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		backupCycle.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		endBackupCycle.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		consoleBox.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 		
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 		server.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -82,7 +96,7 @@ public class Window {
 				}if(e.getSource().equals(endBackupCycle)) {
 					consoleText += core.stopBackupCycle();
 				}
-				console.setText(consoleText);
+				consoleBox.setText(consoleText);
 			}			
 		}	
 		
